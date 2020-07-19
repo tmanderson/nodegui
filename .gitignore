@@ -9,3 +9,4 @@ coverage
 /.idea/
 /prebuilds
 miniqt
+demo.local.ts

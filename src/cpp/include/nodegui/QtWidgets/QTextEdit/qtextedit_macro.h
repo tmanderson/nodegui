@@ -2,6 +2,7 @@
 
 #include <QTextEdit>
 
+#include "QtCore/QTextCursor/qtextcursor_wrap.h"
 #include "QtGui/QColor/qcolor_wrap.h"
 #include "QtGui/QFont/qfont_wrap.h"
 #include "QtWidgets/QAbstractScrollArea/qabstractscrollarea_macro.h"
@@ -183,6 +184,18 @@
         {Napi::External<QFont>::New(env, new QFont(font))});                   \
     return instance;                                                           \
   }                                                                            \
+  Napi::Value textCursor(const Napi::CallbackInfo& info) {                     \
+    Napi::Env env = info.Env();                                                \
+    Napi::HandleScope scope(env);                                              \
+                                                                               \
+    QTextCursor cursor = this->instance->textCursor();                         \
+    Napi::External<QTextCursor> val =                                          \
+        Napi::External<QTextCursor>::New(env, new QTextCursor(cursor));        \
+                                                                               \
+    auto instance = QTextCursorWrap::constructor.New({val});                   \
+                                                                               \
+    return instance;                                                           \
+  }                                                                            \
   Napi::Value setText(const Napi::CallbackInfo& info) {                        \
     Napi::Env env = info.Env();                                                \
     Napi::HandleScope scope(env);                                              \
@@ -261,6 +274,7 @@
       InstanceMethod("redo", &WidgetWrapName::redo),                         \
       InstanceMethod("scrollToAnchor", &WidgetWrapName::scrollToAnchor),     \
       InstanceMethod("selectAll", &WidgetWrapName::selectAll),               \
+      InstanceMethod("textCursor", &WidgetWrapName::textCursor),             \
       InstanceMethod("setText", &WidgetWrapName::setText),                   \
       InstanceMethod("setTextBackgroundColor",                               \
                      &WidgetWrapName::setTextBackgroundColor),               \

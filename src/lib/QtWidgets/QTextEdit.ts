@@ -1,5 +1,6 @@
 import addon from '../utils/addon';
 import { NodeWidget } from './QWidget';
+import { QTextCursor } from '../QtCore/QTextCursor';
 import { NativeElement } from '../core/Component';
 import { QAbstractScrollArea, QAbstractScrollAreaSignals } from './QAbstractScrollArea';
 import { AlignmentFlag, TextInteractionFlag } from '../QtEnums';
@@ -206,6 +207,9 @@ export abstract class NodeTextEdit<Signals extends QTextEditSignals> extends QAb
     }
     setTextColor(color: QColor): void {
         this.native.setTextColor(color.native);
+    }
+    textCursor(): QTextCursor {
+        return this.native.textCursor();
     }
     undo(): void {
         this.native.undo();

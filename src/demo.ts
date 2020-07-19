@@ -1,6 +1,7 @@
 import { QMainWindow, QWidget } from '.';
 import { QGridLayout } from './lib/QtWidgets/QGridLayout';
 import { QLabel } from './lib/QtWidgets/QLabel';
+import { QTextCursor } from './lib/QtCore/QTextCursor';
 
 const win = new QMainWindow();
 win.resize(500, 500);
