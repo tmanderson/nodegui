@@ -1,4 +1,5 @@
 #include "QtCore/QTextCursor/qtextcursor_wrap.h"
+#include "QtCore/QTextDocumentFragment/qtextdocumentfragment_wrap.h"
 
 #include "Extras/Utils/nutils.h"
 #include "QtCore/QVariant/qvariant_wrap.h"
@@ -10,8 +11,8 @@ Napi::Object QTextCursorWrap::init(Napi::Env env, Napi::Object exports) {
   char CLASSNAME[] = "QTextCursor";
   Napi::Function func = DefineClass(
       env, CLASSNAME,
-      // {InstanceMethod("position", &QTextCursorWrap::position),
-      {InstanceMethod("selectedText", &QTextCursorWrap::selectedText),
+      {InstanceMethod("selection", &QTextCursorWrap::selection),
+       InstanceMethod("selectedText", &QTextCursorWrap::selectedText),
        InstanceMethod("movePosition", &QTextCursorWrap::movePosition),
        InstanceMethod("insertText", &QTextCursorWrap::insertText),
        InstanceMethod("insertHtml", &QTextCursorWrap::insertHtml),
@@ -91,6 +92,18 @@ Napi::Value QTextCursorWrap::movePosition(const Napi::CallbackInfo& info) {
   this->instance->movePosition(QTextCursor::MoveOperation(operation),
                                QTextCursor::MoveMode(mode));
   return env.Null();
+}
+Napi::Value QTextCursorWrap::selection(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  QTextDocumentFragment frag = this->instance->selection();
+
+  Napi::External<QTextDocumentFragment> val =
+    Napi::External<QTextDocumentFragment>::New(env, new QTextDocumentFragment(frag));
+
+  auto instance = QTextDocumentFragmentWrap::constructor.New({val});
+  return instance;
 }
 Napi::Value QTextCursorWrap::selectedText(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();

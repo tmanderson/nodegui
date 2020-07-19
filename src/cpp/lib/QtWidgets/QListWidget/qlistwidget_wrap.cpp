@@ -258,7 +258,7 @@ Napi::Value QListWidgetWrap::row(const Napi::CallbackInfo& info) {
   Napi::HandleScope scope(env);
 
   Napi::Object itemObject = info[0].As<Napi::Object>();
-  
+
   QListWidgetItemWrap* itemWrap =
       Napi::ObjectWrap<QListWidgetItemWrap>::Unwrap(itemObject);
 

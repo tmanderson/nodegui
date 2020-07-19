@@ -1,6 +1,7 @@
 import { NativeElement, Component } from '../core/Component';
 import addon from '../utils/addon';
 import { checkIfNativeElement } from '../utils/helpers';
+import { QTextDocumentFragment } from './QTextDocumentFragment';
 import { QVariant } from './QVariant';
 import { QPoint } from './QPoint';
 
@@ -42,6 +43,9 @@ export class QTextCursor extends Component {
     }
     clearSelection(): void {
         this.native.clearSelection();
+    }
+    selection(): QTextDocumentFragment {
+        return this.native.selection();
     }
     selectedText(): string {
         return this.native.selectedText();

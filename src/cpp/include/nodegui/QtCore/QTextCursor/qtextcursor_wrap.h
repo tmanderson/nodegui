@@ -53,7 +53,7 @@ class DLL_EXPORT QTextCursorWrap : public Napi::ObjectWrap<QTextCursorWrap> {
   // Napi::Value positionInBlock(const Napi::CallbackInfo& info)
   // Napi::Value removeSelectedText(const Napi::CallbackInfo& info)
   Napi::Value selectedText(const Napi::CallbackInfo& info);
-  // Napi::Value selection(const Napi::CallbackInfo& info);
+  Napi::Value selection(const Napi::CallbackInfo& info);
   // Napi::Value selectionEnd(const Napi::CallbackInfo& info);
   // Napi::Value selectionStart(const Napi::CallbackInfo& info);
   // Napi::Value verticalMovementX(const Napi::CallbackInfo& info)
