@@ -3,6 +3,7 @@
 #include <QTextEdit>
 
 #include "QtCore/QTextCursor/qtextcursor_wrap.h"
+#include "QtCore/QTextCharFormat/qtextcharformat_wrap.h"
 #include "QtGui/QColor/qcolor_wrap.h"
 #include "QtGui/QFont/qfont_wrap.h"
 #include "QtWidgets/QAbstractScrollArea/qabstractscrollarea_macro.h"
@@ -42,6 +43,17 @@
     Napi::HandleScope scope(env);                                              \
     this->instance->ensureCursorVisible();                                     \
     return env.Null();                                                         \
+  }                                                                            \
+  Napi::Value currentCharFormat(const Napi::CallbackInfo& info) {              \
+    Napi::Env env = info.Env();                                                \
+    Napi::HandleScope scope(env);                                              \
+    QTextCharFormat format = this->instance->currentCharFormat();              \
+    Napi::External<QTextCharFormat> val =                                      \
+        Napi::External<QTextCharFormat>::New(env, new QTextCharFormat(format));\
+                                                                               \
+    auto instance = QTextCharFormatWrap::constructor.New({val});               \
+                                                                               \
+    return instance;                                                           \
   }                                                                            \
   Napi::Value setFontFamily(const Napi::CallbackInfo& info) {                  \
     Napi::Env env = info.Env();                                                \
@@ -243,43 +255,44 @@
 #endif  // QTEXTEDIT_WRAPPED_METHODS_DECLARATION
 
 #ifndef QTEXTEDIT_WRAPPED_METHODS_EXPORT_DEFINE
-#define QTEXTEDIT_WRAPPED_METHODS_EXPORT_DEFINE(WidgetWrapName)              \
-                                                                             \
-  QABSTRACTSCROLLAREA_WRAPPED_METHODS_EXPORT_DEFINE(WidgetWrapName)          \
-                                                                             \
-  InstanceMethod("setAlignment", &WidgetWrapName::setAlignment),             \
-      InstanceMethod("alignment", &WidgetWrapName::alignment),               \
-      InstanceMethod("canPaste", &WidgetWrapName::canPaste),                 \
-      InstanceMethod("setCurrentFont", &WidgetWrapName::setCurrentFont),     \
-      InstanceMethod("currentFont", &WidgetWrapName::currentFont),           \
-      InstanceMethod("ensureCursorVisible",                                  \
-                     &WidgetWrapName::ensureCursorVisible),                  \
-      InstanceMethod("setFontFamily", &WidgetWrapName::setFontFamily),       \
-      InstanceMethod("fontFamily", &WidgetWrapName::fontFamily),             \
-      InstanceMethod("setFontItalic", &WidgetWrapName::setFontItalic),       \
-      InstanceMethod("fontItalic", &WidgetWrapName::fontItalic),             \
-      InstanceMethod("setFontPointSize", &WidgetWrapName::setFontPointSize), \
-      InstanceMethod("fontPointSize", &WidgetWrapName::fontPointSize),       \
-      InstanceMethod("setFontUnderline", &WidgetWrapName::setFontUnderline), \
-      InstanceMethod("fontUnderline", &WidgetWrapName::fontUnderline),       \
-      InstanceMethod("setFontWeight", &WidgetWrapName::setFontWeight),       \
-      InstanceMethod("fontWeight", &WidgetWrapName::fontWeight),             \
-      InstanceMethod("append", &WidgetWrapName::append),                     \
-      InstanceMethod("clear", &WidgetWrapName::clear),                       \
-      InstanceMethod("copy", &WidgetWrapName::copy),                         \
-      InstanceMethod("cut", &WidgetWrapName::cut),                           \
-      InstanceMethod("insertHtml", &WidgetWrapName::insertHtml),             \
-      InstanceMethod("insertPlainText", &WidgetWrapName::insertPlainText),   \
-      InstanceMethod("paste", &WidgetWrapName::paste),                       \
-      InstanceMethod("redo", &WidgetWrapName::redo),                         \
-      InstanceMethod("scrollToAnchor", &WidgetWrapName::scrollToAnchor),     \
-      InstanceMethod("selectAll", &WidgetWrapName::selectAll),               \
-      InstanceMethod("textCursor", &WidgetWrapName::textCursor),             \
-      InstanceMethod("setText", &WidgetWrapName::setText),                   \
-      InstanceMethod("setTextBackgroundColor",                               \
-                     &WidgetWrapName::setTextBackgroundColor),               \
-      InstanceMethod("setTextColor", &WidgetWrapName::setTextColor),         \
-      InstanceMethod("zoomIn", &WidgetWrapName::zoomIn),                     \
+#define QTEXTEDIT_WRAPPED_METHODS_EXPORT_DEFINE(WidgetWrapName)               \
+                                                                              \
+  QABSTRACTSCROLLAREA_WRAPPED_METHODS_EXPORT_DEFINE(WidgetWrapName)           \
+                                                                              \
+  InstanceMethod("setAlignment", &WidgetWrapName::setAlignment),              \
+      InstanceMethod("alignment", &WidgetWrapName::alignment),                \
+      InstanceMethod("canPaste", &WidgetWrapName::canPaste),                  \
+      InstanceMethod("currentCharFormat", &WidgetWrapName::currentCharFormat),\
+      InstanceMethod("setCurrentFont", &WidgetWrapName::setCurrentFont),      \
+      InstanceMethod("currentFont", &WidgetWrapName::currentFont),            \
+      InstanceMethod("ensureCursorVisible",                                   \
+                     &WidgetWrapName::ensureCursorVisible),                   \
+      InstanceMethod("setFontFamily", &WidgetWrapName::setFontFamily),        \
+      InstanceMethod("fontFamily", &WidgetWrapName::fontFamily),              \
+      InstanceMethod("setFontItalic", &WidgetWrapName::setFontItalic),        \
+      InstanceMethod("fontItalic", &WidgetWrapName::fontItalic),              \
+      InstanceMethod("setFontPointSize", &WidgetWrapName::setFontPointSize),  \
+      InstanceMethod("fontPointSize", &WidgetWrapName::fontPointSize),        \
+      InstanceMethod("setFontUnderline", &WidgetWrapName::setFontUnderline),  \
+      InstanceMethod("fontUnderline", &WidgetWrapName::fontUnderline),        \
+      InstanceMethod("setFontWeight", &WidgetWrapName::setFontWeight),        \
+      InstanceMethod("fontWeight", &WidgetWrapName::fontWeight),              \
+      InstanceMethod("append", &WidgetWrapName::append),                      \
+      InstanceMethod("clear", &WidgetWrapName::clear),                        \
+      InstanceMethod("copy", &WidgetWrapName::copy),                          \
+      InstanceMethod("cut", &WidgetWrapName::cut),                            \
+      InstanceMethod("insertHtml", &WidgetWrapName::insertHtml),              \
+      InstanceMethod("insertPlainText", &WidgetWrapName::insertPlainText),    \
+      InstanceMethod("paste", &WidgetWrapName::paste),                        \
+      InstanceMethod("redo", &WidgetWrapName::redo),                          \
+      InstanceMethod("scrollToAnchor", &WidgetWrapName::scrollToAnchor),      \
+      InstanceMethod("selectAll", &WidgetWrapName::selectAll),                \
+      InstanceMethod("textCursor", &WidgetWrapName::textCursor),              \
+      InstanceMethod("setText", &WidgetWrapName::setText),                    \
+      InstanceMethod("setTextBackgroundColor",                                \
+                     &WidgetWrapName::setTextBackgroundColor),                \
+      InstanceMethod("setTextColor", &WidgetWrapName::setTextColor),          \
+      InstanceMethod("zoomIn", &WidgetWrapName::zoomIn),                      \
       InstanceMethod("zoomOut", &WidgetWrapName::zoomOut),
 
 #endif  // QTEXTEDIT_WRAPPED_METHODS_EXPORT_DEFINE

@@ -13,6 +13,7 @@
 #include "QtCore/QSettings/qsettings_wrap.h"
 #include "QtCore/QSize/qsize_wrap.h"
 #include "QtCore/QTextCursor/qtextcursor_wrap.h"
+#include "QtCore/QTextCharFormat/qtextcharformat_wrap.h"
 #include "QtCore/QTextDocumentFragment/qtextdocumentfragment_wrap.h"
 #include "QtCore/QTime/qtime_wrap.h"
 #include "QtCore/QUrl/qurl_wrap.h"
@@ -125,6 +126,7 @@ Napi::Object Main(Napi::Env env, Napi::Object exports) {
   QSizeWrap::init(env, exports);
   QTextCursorWrap::init(env, exports);
   QTextDocumentFragmentWrap::init(env, exports);
+  QTextCharFormatWrap::init(env, exports);
   QTimeWrap::init(env, exports);
   QUrlWrap::init(env, exports);
   QVariantWrap::init(env, exports);

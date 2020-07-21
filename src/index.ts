@@ -137,6 +137,7 @@ export { QColor } from './lib/QtGui/QColor';
 export { QTime } from './lib/QtCore/QTime';
 export { QTextCursor } from './lib/QtCore/QTextCursor';
 export { QTextDocumentFragment } from './lib/QtCore/QTextDocumentFragment';
+export { QTextCharFormat } from './lib/QtCore/QTextCharFormat';
 export { QUrl, ParsingMode } from './lib/QtCore/QUrl';
 export { QSettings, QSettingsFormat, QSettingsScope } from './lib/QtCore/QSettings';
 // Layouts:

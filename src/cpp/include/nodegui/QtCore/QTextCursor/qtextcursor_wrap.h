@@ -29,7 +29,7 @@ class DLL_EXPORT QTextCursorWrap : public Napi::ObjectWrap<QTextCursorWrap> {
   // Napi::Value blockCharFormat(const Napi::CallbackInfo& info)
   // Napi::Value blockFormat(const Napi::CallbackInfo& info)
   // Napi::Value blockNumber(const Napi::CallbackInfo& info)
-  // Napi::Value charFormat(const Napi::CallbackInfo& info)
+  Napi::Value charFormat(const Napi::CallbackInfo& info);
   Napi::Value clearSelection(const Napi::CallbackInfo& info);
   // Napi::Value columnNumber(const Napi::CallbackInfo& info)
   // Napi::Value currentFrame(const Napi::CallbackInfo& info)

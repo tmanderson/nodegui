@@ -6,6 +6,7 @@ import { QAbstractScrollArea, QAbstractScrollAreaSignals } from './QAbstractScro
 import { AlignmentFlag, TextInteractionFlag } from '../QtEnums';
 import { QFont } from '../QtGui/QFont';
 import { QColor } from '../QtGui/QColor';
+import { QTextCharFormat } from '../QtCore/QTextCharFormat';
 
 /**
  
@@ -36,6 +37,9 @@ export abstract class NodeTextEdit<Signals extends QTextEditSignals> extends QAb
     }
     autoFormatting(): AutoFormattingFlag {
         return this.property('autoFormatting').toInt();
+    }
+    currentCharFormat(): QTextCharFormat {
+        return this.native.currentCharFormat();
     }
     setCursorWidth(width: number): void {
         this.setProperty('cursorWidth', width);

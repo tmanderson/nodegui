@@ -23,7 +23,7 @@ export class QTextDocumentFragment extends Component {
         }
     }
     isEmpty(): boolean {
-        return this.native.isEmpty()
+        return this.native.isEmpty();
     }
     toHtml(): string {
         return this.native.toHtml();

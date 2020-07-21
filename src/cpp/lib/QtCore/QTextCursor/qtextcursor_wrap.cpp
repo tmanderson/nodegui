@@ -1,7 +1,7 @@
 #include "QtCore/QTextCursor/qtextcursor_wrap.h"
-#include "QtCore/QTextDocumentFragment/qtextdocumentfragment_wrap.h"
 
 #include "Extras/Utils/nutils.h"
+#include "QtCore/QTextDocumentFragment/qtextdocumentfragment_wrap.h"
 #include "QtCore/QVariant/qvariant_wrap.h"
 
 Napi::FunctionReference QTextCursorWrap::constructor;
@@ -100,7 +100,8 @@ Napi::Value QTextCursorWrap::selection(const Napi::CallbackInfo& info) {
   QTextDocumentFragment frag = this->instance->selection();
 
   Napi::External<QTextDocumentFragment> val =
-    Napi::External<QTextDocumentFragment>::New(env, new QTextDocumentFragment(frag));
+      Napi::External<QTextDocumentFragment>::New(
+          env, new QTextDocumentFragment(frag));
 
   auto instance = QTextDocumentFragmentWrap::constructor.New({val});
   return instance;

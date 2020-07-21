@@ -4,7 +4,8 @@
 
 Napi::FunctionReference QTextDocumentFragmentWrap::constructor;
 
-Napi::Object QTextDocumentFragmentWrap::init(Napi::Env env, Napi::Object exports) {
+Napi::Object QTextDocumentFragmentWrap::init(Napi::Env env,
+                                             Napi::Object exports) {
   Napi::HandleScope scope(env);
   char CLASSNAME[] = "QTextDocumentFragment";
   Napi::Function func = DefineClass(
@@ -12,15 +13,18 @@ Napi::Object QTextDocumentFragmentWrap::init(Napi::Env env, Napi::Object exports
       {InstanceMethod("isEmpty", &QTextDocumentFragmentWrap::isEmpty),
        InstanceMethod("toHtml", &QTextDocumentFragmentWrap::toHtml),
        InstanceMethod("toPlainText", &QTextDocumentFragmentWrap::toPlainText),
-       StaticMethod("fromHtml", &StaticQTextDocumentFragmentWrapMethods::fromHtml),
-       StaticMethod("fromPlainText", &StaticQTextDocumentFragmentWrapMethods::fromPlainText),
+       StaticMethod("fromHtml",
+                    &StaticQTextDocumentFragmentWrapMethods::fromHtml),
+       StaticMethod("fromPlainText",
+                    &StaticQTextDocumentFragmentWrapMethods::fromPlainText),
        COMPONENT_WRAPPED_METHODS_EXPORT_DEFINE(QTextDocumentFragmentWrap)});
   constructor = Napi::Persistent(func);
   exports.Set(CLASSNAME, func);
   return exports;
 }
 
-QTextDocumentFragmentWrap::QTextDocumentFragmentWrap(const Napi::CallbackInfo& info)
+QTextDocumentFragmentWrap::QTextDocumentFragmentWrap(
+    const Napi::CallbackInfo& info)
     : Napi::ObjectWrap<QTextDocumentFragmentWrap>(info) {
   Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
@@ -37,7 +41,9 @@ QTextDocumentFragmentWrap::QTextDocumentFragmentWrap(const Napi::CallbackInfo& i
   this->rawData = extrautils::configureComponent(this->getInternalInstance());
 }
 
-QTextDocumentFragmentWrap::~QTextDocumentFragmentWrap() { this->instance.reset(); }
+QTextDocumentFragmentWrap::~QTextDocumentFragmentWrap() {
+  this->instance.reset();
+}
 
 QTextDocumentFragment* QTextDocumentFragmentWrap::getInternalInstance() {
   return this->instance.get();
@@ -55,14 +61,16 @@ Napi::Value QTextDocumentFragmentWrap::toHtml(const Napi::CallbackInfo& info) {
   Napi::String txt = Napi::String::New(env, html.toStdString());
   return Napi::Value::From(env, txt);
 }
-Napi::Value QTextDocumentFragmentWrap::toPlainText(const Napi::CallbackInfo& info) {
+Napi::Value QTextDocumentFragmentWrap::toPlainText(
+    const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
   QString plainText = this->instance->toPlainText();
   Napi::String txt = Napi::String::New(env, plainText.toStdString());
   return Napi::Value::From(env, txt);
 }
-Napi::Value StaticQTextDocumentFragmentWrapMethods::fromHtml(const Napi::CallbackInfo& info) {
+Napi::Value StaticQTextDocumentFragmentWrapMethods::fromHtml(
+    const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
@@ -72,12 +80,14 @@ Napi::Value StaticQTextDocumentFragmentWrapMethods::fromHtml(const Napi::Callbac
   auto frag = QTextDocumentFragment::fromHtml(htmlText);
 
   auto instance = QTextDocumentFragmentWrap::constructor.New(
-      {Napi::External<QTextDocumentFragment>::New(env, new QTextDocumentFragment(frag))});
+      {Napi::External<QTextDocumentFragment>::New(
+          env, new QTextDocumentFragment(frag))});
   // auto instance = QTextDocumentFragmentWrap::constructor.New(
   //     {Napi::External<QTextDocumentFragment>::New(env, )});
   return instance;
 }
-Napi::Value StaticQTextDocumentFragmentWrapMethods::fromPlainText(const Napi::CallbackInfo& info) {
+Napi::Value StaticQTextDocumentFragmentWrapMethods::fromPlainText(
+    const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
@@ -87,7 +97,8 @@ Napi::Value StaticQTextDocumentFragmentWrapMethods::fromPlainText(const Napi::Ca
   auto frag = QTextDocumentFragment::fromPlainText(text);
 
   auto instance = QTextDocumentFragmentWrap::constructor.New(
-      {Napi::External<QTextDocumentFragment>::New(env, new QTextDocumentFragment(frag))});
+      {Napi::External<QTextDocumentFragment>::New(
+          env, new QTextDocumentFragment(frag))});
   // auto instance = QTextDocumentFragmentWrap::constructor.New(
   //     {Napi::External<QTextDocumentFragment>::New(env, )});
   return instance;
